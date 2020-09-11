@@ -1,0 +1,100 @@
+<h1 class="text-center mb-3">40K Tabletop Game Squad Constructor</h1>
+
+<br>
+
+<div class="PageBar">
+	<a href="/">Home   |   </a>
+	<a href="/sergeants">Admin: Sergeants   |   </a>
+	<a href="/spacemarines">Admin: Space Marines   |   </a>
+	<a href="/equipments">Admin: Equipments   |   </a>
+    <a href="/equipmentSearch">Equipment Search</a>
+</div>
+
+<br>
+
+<p1>***Because the project requires the user to be able to INSERT / DELETE from EVERY table we have created admin
+    pages. These would be inaccesible to a normal user and allow editing the SpaceMarine Table, Sergeants Table
+    and Equipments Table. These tables would normally be pre-filled as we don't want users to randomly change the
+    values within these tables. They represent set entities in the rules of the game and shouldn't be changed.
+</p1>
+
+<br>
+
+<h4>Admin Page: Space Marines</h4>
+
+<h5>SpaceMarines Table</h5>
+<div class = "d-flex flex-row"></div>
+{{!-- Space Marines TABLE --}}
+<table class="table table-hover table-dark table-striped">
+    <tbody>
+        <tr>
+            <th scope="row">+/-</th>
+            <th scope = "row">ID </th>
+            <th scope = "row">SquadID </th>
+            <th scope = "row">Name</th>
+            <th scope = "row">Equipment 1 </th>
+            <th scope = "row">Equipment 2 </th>
+            <th scope = "row">Point Cost </th>
+            <th scope = "row">Update</th>
+        </tr>
+        {{#each spacemarines}}{{!-- DISPLAY ALL CURRENT MARINES --}}
+        <tr>
+            <form action="/spacemarines" method="post" class="py-2">
+                <input type="hidden" name="id" value="{{this.id}}">
+                <td><input type="submit" name="removeSpaceMarine" value="-"
+                        class="btn btn-primary"></td>
+                <td>{{this.id}}</td>
+                <td><input class="form-control" name="assaultsquadid" type="number" value="{{this.assaultsquadid}}" id="assaultsquadid" min="0"></td>
+                <td><input type="text" name="name" value="{{this.name}}" class="form-control"></td>
+                {{#each this.weapons}}
+                <td>
+                    <input type="hidden" name="currentWeapon{{@index}}" value="{{this.id}}">
+                    <select class="custom-select mr-sm-2" name="newWeapon{{@index}}" id="possibleBasicWeapons">
+                        {{#if this}}<option value="{{this.id}}" disabled selected>{{this.name}}</option>{{/if}}
+                        {{#unless this}}<option disabled selected>Equipment</option>{{/unless}}
+                        {{#each ../../this.possibleBasicWeapons}}
+                        
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        
+                        {{/each}}
+                    </select>
+                </td>
+                {{/each}}
+                <td><input class="form-control" name="base_point_cost" type="number" value="{{this.base_point_cost}}" id="base_point_cost" min="1"></td>
+                <td><input type="submit" name="updateSpaceMarine" value="Update"
+                        class="btn btn-primary"></td>
+            </form>
+        </tr>
+        {{/each}}
+       <tr>{{!-- ADD SPACE MARINES --}}
+            <form action="/spacemarines" method="post" class="py-2">
+                <td><input type="submit" name="addSpaceMarine" value="+" class="btn btn-primary col-md-auto"></td>
+                <td>--</td>
+                <td><input class="form-control" name="assaultsquadid" type="number" value="1" id="assaultsquadid" min="1"></td>
+                <td><input type="text" name="name" value="Name" class="form-control"></td>
+                <td>
+                    <select class="custom-select mr-sm-2" name="weapon0" id="weapon0">
+                        <option value='{{this.possibleBasicWeapons.id}}' disabled selected>Equipment</option>
+                        {{#each this.possibleBasicWeapons}}
+                        
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        
+                        {{/each}}
+                    </select>
+                </td>
+                <td>
+                    <select class="custom-select mr-sm-2" name="weapon1" id="weapon1">
+                        <option value='{{this.possibleBasicWeapons.id}}' disabled selected>Equipment</option>
+                        {{#each this.possibleBasicWeapons}}
+                        
+                            <option value="{{this.id}}">{{this.name}}</option>
+                        
+                        {{/each}}
+                    </select>
+                </td>
+                <td><input class="form-control" name="base_point_cost" type="number" value="1" id="base_point_cost" min="1"></td>
+                <td></td>
+            </form>
+        </tr>
+    </tbody>
+</table>

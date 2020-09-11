@@ -1,0 +1,22 @@
+{
+  "name": "40kconstructor",
+  "version": "1.0.0",
+  "description": "40K Constructor",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "Phillip Wellheuser, Geoffry Hammon",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
+    "mysql": "^2.8.0",
+    "nodemon": "^2.0.4",
+    "request": "^2.65.0"
+  }
+}

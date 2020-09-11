@@ -1,0 +1,107 @@
+<h1 class="text-center mb-3">40K Tabletop Game Squad Constructor</h1>
+
+<br>
+
+<div class="PageBar">
+	<a href="/">Home   |   </a>
+	<a href="/sergeants">Admin: Sergeants   |   </a>
+	<a href="/spacemarines">Admin: Space Marines   |   </a>
+	<a href="/equipments">Admin: Equipments   |   </a>
+    <a href="/equipmentSearch">Equipment Search</a>
+</div>
+
+<br>
+
+<p1>***Because the project requires the user to be able to INSERT / DELETE from EVERY table we have created admin
+    pages. These would be inaccesible to a normal user and allow editing the SpaceMarine Table, Sergeants Table
+    and Equipments Table. These tables would normally be pre-filled as we don't want users to randomly change the
+    values within these tables. They represent set entities in the rules of the game and shouldn't be changed.
+</p1>
+
+<br>
+
+<h4>Admin Page: Equipments</h4>
+
+<h5>Equipments Table</h5>
+<div class = "d-flex flex-row"></div>
+{{!-- EQUIPMENTS TABLE --}}
+<table class="table table-hover table-dark table-striped">
+    <tbody>
+        <tr>
+            <th scope = "row">Add/Remove </th>
+            <th scope = "row">ID </th>
+            <th scope = "row">Name</th>
+            <th scope = "row">Point Cost </th>
+            <th scope = "row">Is Sergeant Weapon </th>
+            <th scope = "row">Is Special Equipment </th>
+        </tr>
+{{!-- DISPLAY ALL CURRENT EQUIPMENTS --}}
+        {{#each equipments}}
+        <tr>
+            <td>
+                <form action ="/" method="post" class= "mb-4">
+                    <div class="form-group btn-group col-md-auto">
+                        <input type="button" name="-Equipments" value="-" class="btn btn-primary" onclick="deleteEquipment({{this.id}});">
+                    </div>
+                </form>
+            </td>
+            <td>{{this.id}}</td>
+            <td>{{this.name}}</td>
+            <td>{{this.point_cost}}</td>
+            <td> {{!-- IF STATEMENT HERE TO SET CHECKED OR NOT --}}
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="issergeantweapon{{this.id}}" {{#if this.is_sergeant_weapon}}checked{{/if}} name="sergeantweapon">
+                    <label class="custom-control-label" for="issergeantweapon{{this.id}}"></label>
+                </div>
+            </td>
+            <td>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="isspecialweapon{{this.id}}" {{#if this.is_special_weapon}}checked{{/if}} name="sergeantweapon">
+                    <label class="custom-control-label" for="isspecialweapon{{this.id}}"></label>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+{{!-- ADD NEW EQUIPMENT --}}
+        <tr>
+            <form action ="/" method="post" class= "mb-4">
+                <div class="form-group">
+                    <td>
+                        <form action ="/" method="post" class= "mb-4">
+                            <div class="form-group btn-group col-md-auto">
+                                <input type="button" name="+Equipments" value="+" class="btn btn-primary" onclick="addEquipment()">
+                            </div>
+                        </form>
+                    </td>
+                    <td>1</td>
+                    <td>
+                        <div class="form-group ">
+                            <input type="text" id="equipmentName" name="equipmentName" class="form-control" value="Sword"> 
+                        </div>
+                    </td>
+                    <td>
+                        <input type="number" id="equipmentCost" name="equipmentCost" min="0" max="99" value = 20 value="35" class="form-control">
+                    </td>
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input " id="isSergeantWeaponAdd">
+                            <label class="custom-control-label" for="isSergeantWeaponAdd"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input " id="isSpecialEquipmentAdd">
+                            <label class="custom-control-label" for="isSpecialEquipmentAdd"></label>
+                        </div>
+                    </td>
+                </div>
+            </form>
+        </tr>
+    </tbody>
+</table>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+{{#each jsscripts}}
+	<script src="/{{this}}"></script>
+{{/each}}

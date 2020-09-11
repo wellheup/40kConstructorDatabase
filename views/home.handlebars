@@ -1,0 +1,329 @@
+<h1 class="text-center mb-3">40K Tabletop Game Squad Constructor</h1>
+
+<br>
+
+<div class="PageBar">
+	<a href="/">Home   |   </a>
+	<a href="/sergeants">Admin: Sergeants   |   </a>
+	<a href="/spacemarines">Admin: Space Marines   |   </a>
+	<a href="/equipments">Admin: Equipments   |   </a>
+    <a href="/equipmentSearch">Equipment Search</a>
+</div>
+
+<br>
+
+<p1>***This page is our main page. It represents where a normal user would construct their army list. They may add and
+	Remove
+	entire lists, add and remove squads from specific lists, and add or remove Space Marines from individual squads. In
+	addition,
+	they are able to change their Sergeants Equipments as well as their Space Marines Equipmints.
+
+	{{headertext}}
+</p1>
+
+<br>
+
+<h4>My Army Lists:{{subtitle}}</h4>
+<ul class="list-group">{{!-- ARMY LIST FORM --}}
+	{{#each armylists}}
+	<li class="list-group-item border border-primary">
+		<form action="/" method="post" class="py-2">
+			<div class="form-inline row justify-content-md-left">
+				<div class="form-group">
+					<input type="hidden" name="id" value={{this.id}}>
+					<input type="submit" name="removeArmylist" value="-" class="btn btn-primary col-md-auto">
+					<input type="text" name="armyName" value="{{this.name}}" class="form-control col-md-auto">
+					<h4 class=" col-md-auto">Squads: {{this.numAssaultSquads}}</h4>
+					<h4 class=" col-md-auto">Cost: {{this.point_cost}}</h4>
+					<input type="submit" name="updateArmylist" value="Update" class="btn btn-primary col-md-auto">
+				</div>
+			</div>
+		</form>
+		<ul class="list-group">{{!-- SQUAD FORM --}}
+			{{#each this.assaultsquads}}
+			<li class="list-group-item border border-secondary">
+				<form action="/" method="post" class="py-2">
+					<div class="form-inline row justify-content-md-left">
+						<div class="form-group">
+							<input type="hidden" name="id" value="{{this.id}}">
+							<input type="submit" name="removeAssaultSquad" value="-"
+								class="btn btn-primary col-md-auto">
+							<input type="text" name="squadName" value="{{this.name}}" class="form-control col-md-auto">
+							<h4 class="col-md-auto">Members: {{this.space_marines_count}} </h4>
+							<h4 class="col-md-auto">Cost: {{this.point_cost}}</h4>
+							<div class="custom-control custom-switch col-md-auto ">
+								<input type="checkbox" name="hasjumppacks" class="custom-control-input"
+									{{#if this.has_jumppacks}}checked{{/if}} id="jumppacks{{this.id}}">
+								<label class="custom-control-label" for="jumppacks{{this.id}}">
+									<h4>Jumppacks</h4>
+								</label>
+							</div>
+							<input type="submit" name="updateAssaultSquad" value="Update"
+								class="btn btn-primary col-md-auto">
+						</div>
+					</div>
+				</form>
+				<ul class="list-group">
+					<li class="list-group-item border border-primary">{{!-- SERGEANT SECTION --}}
+						{{#each this.sergeants}}
+						<h5 class="d-flex flex-row">Sergeant</h5>
+						<table class="table table-hover table-dark table-striped">{{!-- SERGEANT EQIPMENT TABLE --}}
+							<h6 class="d-flex flex-row">Sergeant's Equipment</h6>
+							<tbody>
+								<tr>
+									<th scope="row">+/-</th>
+									<th scope="row">ID</th>
+									<th scope="row">Name</th>
+									<th scope="row">Equipment 1</th>
+									<th scope="row">Equipment 2</th>
+									<th scope="row">Point Cost</th>
+									<th scope="row">Update</th>
+								</tr>
+								<tr>
+									<form action="/" method="post" class="py-2">
+										<input type="hidden" name="id" value="{{this.id}}">
+										<td><input type="submit" name="removeSergeant" value="-" class="btn btn-primary col-md-auto"></td>
+										<td>{{this.id}}</td>
+										<td><input type="text" name="sergeantName" value="{{this.name}}"
+												class="form-control"></td>
+										{{#each this.weapons}}
+										<td>
+											<input type="hidden" name="currentWeapon{{@index}}" value="{{this.id}}">
+											<select class="custom-select mr-sm-2" name="newWeapon{{@index}}" id="possibleSergeantWeapons">
+												{{#if this}}<option value="{{this.id}}" disabled selected>{{this.name}}</option>{{/if}}
+												{{#unless this}}<option value='{{../../../../this.possibleSergeantWeapons.0.id}}' disabled selected>Equipment</option>{{/unless}}
+												{{#each ../../../../this.possibleSergeantWeapons}}
+												
+													<option value="{{this.id}}">{{this.name}}</option>
+												
+												{{/each}}
+											</select>
+										</td>
+										{{/each}}
+										<td>{{this.point_cost}}</td>
+										<td><input type="submit" name="updateSergeant" value="Update"
+												class="btn btn-primary"></td>
+									</form>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table table-hover table-dark table-striped">
+							{{!-- SERGEANT SPECIAL EQUIPMENT TABLE --}}
+							<h6>Sergeant's Special Equipment</h6>
+							<tbody>
+								<tr>
+									<th scope="row">+/-</th>
+									<th scope="row">ID</th>
+									<th scope="row">Special Equipment</th>
+									<th scope="row">Point Cost</th>
+									<th scope="row">Update</th>
+								</tr>
+								{{#if this.specials}}
+								{{#each this.specials}}
+								<tr>
+									<form action="/" method="post" class="">
+										<div class="form-group">
+											<input type="hidden" name="id" value="{{../this.id}}">
+											<td><input type="submit" name="removeSpecialEquipment" value="-"
+													class="btn btn-primary"></td>
+											<td>{{this.id}}</td>
+											<td>
+												<input type="hidden" name="currentWeapon" value="{{this.id}}">
+												<select class="custom-select mr-sm-2" name="newWeapon" id="possibleSergeantWeapons">
+													<option value="{{this.id}}" disabled selected>{{this.name}}</option>
+													{{#each ../../../../this.possibleSpecialWeapons}}
+													
+														<option value="{{this.id}}">{{this.name}}</option>
+													
+													{{/each}}
+												</select>
+											</td>
+											<td>{{this.point_cost}}</td>
+											<td><input type="submit" name="updateSpecialEquipment" value="Update"
+												class="btn btn-primary"></td>
+										</div>
+									</form>
+								</tr>
+								{{/each}}
+								{{/if}}
+								<tr>{{!-- ADD SPECIAL EQUIPMENT --}}
+									<form action="/" method="post" class="">
+									<input type="hidden" name="id" value="{{this.id}}">
+										<div class="form-group">
+											<td><input type="submit" name="addSpecialEquipment" value="+"
+												class="btn btn-primary"></td>
+											<td>--</td>
+											<td>
+												<select class="custom-select mr-sm-2" name="newWeapon" id="possibleSergeantWeapons">
+													<option value = "{{../../../this.possibleSpecialWeapons.0.id}}" selected disabled>Special Equipment</option>
+													{{#each ../../../this.possibleSpecialWeapons}}
+													
+														<option value="{{this.id}}">{{this.name}}</option>
+													
+													{{/each}}
+												</select>
+											</td>
+											<td>--</td>
+											<td></td>
+										</div>
+									</form>
+								</tr>
+							</tbody>
+						</table>
+						{{/each}}
+						{{#unless this.sergeants}}{{!-- ADD SERGEANTS --}}
+						<h5 class="d-flex flex-row">Sergeant</h5>
+						<table class="table table-hover table-dark table-striped">
+							<h6 class="d-flex flex-row">Sergeant's Equipment</h6>
+							<tbody>
+								<tr>
+									<th scope="row">+/-</th>
+									<th scope="row">ID</th>
+									<th scope="row">Name</th>
+									<th scope="row">Equipment 1</th>
+									<th scope="row">Equipment 2</th>
+									<th scope="row">Point Cost</th>
+								</tr>
+								<tr>
+									<form action="/" method="post" class="py-2">
+										<input type="hidden" name="assaultsquadid" value="{{this.id}}">
+										<td><input type="submit" name="addSergeant" value="+" class="btn btn-primary col-md-auto"></td>
+										<td>--</td>
+										<td><input type="text" name="sergeantName" value="Sergeant Name"
+												class="form-control"></td>
+										<td>
+											<select class="custom-select mr-sm-2" name="weapon0" id="weapon0">
+												<option value='{{../../this.possibleSergeantWeapons.0.id}}' disabled selected>Equipment</option>
+												{{#each ../../this.possibleSergeantWeapons}}
+												
+													<option value="{{this.id}}">{{this.name}}</option>
+												
+												{{/each}}
+											</select>
+										</td>
+										<td>
+											<select class="custom-select mr-sm-2" name="weapon1" id="weapon1">
+												<option value='{{../../this.possibleSergeantWeapons.0.id}}' disabled selected>Equipment</option>
+												{{#each ../../this.possibleSergeantWeapons}}
+												
+													<option value="{{this.id}}">{{this.name}}</option>
+												
+												{{/each}}
+											</select>
+										</td>
+										<td>--</td>
+									</form>
+								</tr>
+							</tbody>
+						</table>
+						{{/unless}}
+					</li>
+					<li class="list-group-item border border-primary">{{!-- Space Marines SECTION --}}
+						<h5 class="d-flex flex-row">Space Marines</h5>
+						<table class="table table-hover table-dark table-striped">{{!-- Space Marines TABLE --}}
+							<tbody>
+								<tr>
+									<th scope="row">+/-</th>
+									<th scope="row">ID</th>
+									<th scope="row">Equipment 1</th>
+									<th scope="row">Equipment 2</th>
+									<th scope="row">Point Cost</th>
+									<th scope="row">Update</th>
+								</tr>
+								{{#each this.spacemarines}}
+								<tr>
+									<form action="/" method="post" class="py-2">
+										<input type="hidden" name="id" value="{{this.id}}">
+										<td><input type="submit" name="removeSpaceMarine" value="-"
+												class="btn btn-primary"></td>
+										<td>{{this.id}}</td>
+										{{#each this.weapons}}
+										<td>
+											<input type="hidden" name="currentWeapon{{@index}}" value="{{this.id}}">
+											<select class="custom-select mr-sm-2" name="newWeapon{{@index}}" id="possibleBasicWeapons">
+												{{#if this}}<option value="{{this.id}}" disabled selected>{{this.name}}</option>{{/if}}
+												{{#unless this}}<option disabled selected>Equipment</option>{{/unless}}
+												{{#each ../../../../this.possibleBasicWeapons}}
+												
+													<option value="{{this.id}}">{{this.name}}</option>
+												
+												{{/each}}
+											</select>
+										</td>
+										{{/each}}
+										<td>{{this.point_cost}}</td>
+										<td><input type="submit" name="updateSpaceMarine" value="Update"
+												class="btn btn-primary"></td>
+									</form>
+								</tr>
+								{{/each}}
+								<tr>{{!-- ADD SPACE MARINES --}}
+									<form action="/" method="post" class="py-2">
+										<input type="hidden" name="assaultsquadid" value="{{this.id}}">
+										<td><input type="submit" name="addSpaceMarine" value="+" class="btn btn-primary col-md-auto"></td>
+										<td>--</td>
+										<td>
+											<select class="custom-select mr-sm-2" name="weapon0" id="weapon0">
+												<option value='{{../../this.possibleBasicWeapons.id}}' disabled selected>Equipment</option>
+												{{#each ../../this.possibleBasicWeapons}}
+												
+													<option value="{{this.id}}">{{this.name}}</option>
+												
+												{{/each}}
+											</select>
+										</td>
+										<td>
+											<select class="custom-select mr-sm-2" name="weapon1" id="weapon1">
+												<option value='{{../../this.possibleBasicWeapons.id}}' disabled selected>Equipment</option>
+												{{#each ../../this.possibleBasicWeapons}}
+												
+													<option value="{{this.id}}">{{this.name}}</option>
+												
+												{{/each}}
+											</select>
+										</td>
+										<td>--</td>
+										<td></td>
+									</form>
+								</tr>
+							</tbody>
+						</table>
+					</li>
+				</ul>
+			</li>
+			{{/each}}
+			<li class="list-group-item border border-secondary">{{!-- ADD SQUADS --}}
+				<form action="/" method="post" class="py-2">
+					<div class="form-inline row justify-content-md-left">
+						<div class="form-group">
+							<input type="hidden" name="armylistid" value={{this.id}}>
+							<input type="submit" name="addAssaultSquad" value="+" class="btn btn-primary col-md-auto">
+							<input type="text" name="squadName" value="New Squad Name" class="form-control col-md-auto">
+							<h4 class="col-md-auto">Members: -- </h4>
+							<h4 class="col-md-auto">Cost: --</h4>
+							<div class="custom-control custom-switch col-md-auto">
+								<input type="checkbox" name="hasjumppacks" class="custom-control-input" id="newjumppacks{{this.id}}">
+								<label class="custom-control-label" for="newjumppacks{{this.id}}">
+									<h4>Jumppacks</h4>
+								</label>
+							</div>
+						</div>
+					</div>
+				</form>
+			</li>
+		</ul>
+	</li>
+	{{/each}}
+	<li class="list-group-item border border-primary">{{!-- ADD TO ARMYLIST --}}
+		<form action="/" method="post" class="py-2">
+			<div class="form-inline row justify-content-md-left">
+				<div class="form-group">
+					<input type="submit" name="addArmylist" value="+" class="btn btn-primary col-md-auto">
+					<input type="text" name="armyName" class="form-control" value="New Army Name">
+					<h4 class=" col-md-auto">Squads: --</h4>
+					<h4 class=" col-md-auto">Cost: --</h4>
+				</div>
+			</div>
+		</form>
+	</li>
+</ul>

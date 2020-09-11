@@ -1,0 +1,98 @@
+<h1 class="text-center mb-3">40K Tabletop Game Squad Constructor</h1>
+
+<br>
+
+<div class="PageBar">
+	<a href="/">Home   |   </a>
+	<a href="/sergeants">Admin: Sergeants   |   </a>
+	<a href="/spacemarines">Admin: Space Marines   |   </a>
+	<a href="/equipments">Admin: Equipments   |   </a>
+    <a href="/equipmentSearch">Equipment Search</a>
+</div>
+
+<br>
+
+<p1>***This page is our search results page. It represents where a normal user would view results for a search for equipments
+
+	{{headertext}}
+</p1>
+
+<br>
+
+<h5 class="d-flex flex-row">Results</h5>
+<table class="table table-hover table-dark table-striped">{{!-- SERGEANT EQIPMENT TABLE --}}
+	<tbody>
+		<tr>
+			{{!-- <th scope="row">+/-</th> --}}
+			<th scope="row"></th>
+			<th scope="row">ID</th>
+			<th scope="row">Name</th>
+			<th scope="row">Is Sergeant Weapon</th>
+			<th scope="row">Is Special Weapon</th>
+			<th scope="row">Point Cost</th>
+			{{!-- <th scope="row">Update</th> --}}
+		</tr>
+		<tr>
+			<form action="/equipmentSearch" method="post" class="">
+				<td><input type="submit" name="Search" value="Search" class="btn btn-primary col-md-auto"></td>
+				<td class="form-inline row justify-content-md-left">
+					<select class="custom-select mr-sm-2" name="idMod" id="idMod">
+						<option value="=" >=</option>
+						<option value=">" selected>></option>
+						<option value="<"><</option>
+						<option value="<="><=</option>
+						<option value=">=">>=</option>
+					</select>
+					<input class="form-control" name="id" type="number" value="1" id="id" min="1" max="10000">
+				</td>
+				<td></td>
+				<td>
+					<div class="custom-control custom-switch col-md-auto">
+						<input type="checkbox" name="is_sergeant_weapon" class="custom-control-input" id="is_sergeant_weapon">
+						<label class="custom-control-label" for="is_sergeant_weapon"></label>
+					</div></td>
+				<td>
+					<div class="custom-control custom-switch col-md-auto">
+						<input type="checkbox" name="is_special_weapon" class="custom-control-input" id="is_special_weapon">
+						<label class="custom-control-label" for="is_special_weapon"></label>
+					</div>
+				</td>
+				<td class="form-inline row justify-content-md-left">
+					<select class="custom-select mr-sm-2" name="point_costMod" id="point_costMod">
+						<option value="=" >=</option>
+						<option value=">" selected>></option>
+						<option value="<"><</option>
+						<option value="<="><=</option>
+						<option value=">=">>=</option>
+					</select>
+					<input class="form-control" name="point_cost" type="number" value="0" id="point_cost" min="0" max="50">
+				</td>
+			</form>
+		</tr>
+		{{#each equipments}}
+		<tr>
+			<td></td>
+			<form action="/" method="post" class="py-2">
+				<input type="hidden" name="id" value="{{this.id}}">
+				<td>{{this.id}}</td>
+				<td>{{this.name}}</td>
+				<td>
+					<div class="custom-control custom-switch col-md-auto ">
+						<input type="checkbox" name="is_sergeant_weapon" class="custom-control-input"
+							{{#if this.is_sergeant_weapon}}checked{{/if}} id="is_sergeant_weapon{{this.id}}">
+						<label class="custom-control-label" for="is_sergeant_weapon{{this.id}}"></label>
+					</div>
+				</td>
+				<td>
+					<div class="custom-control custom-switch col-md-auto ">
+						<input type="checkbox" name="is_special_weapon" class="custom-control-input"
+							{{#if this.is_special_weapon}}checked{{/if}} id="is_special_weapon{{this.id}}">
+						<label class="custom-control-label" for="is_special_weapon{{this.id}}"></label>
+					</div>
+				</td>
+				<td>{{this.point_cost}}</td>
+			</form>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>

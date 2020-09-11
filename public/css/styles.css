@@ -1,0 +1,10 @@
+/******************************************************************** 
+** Program: CS290 Course Project        CS-290
+** Author: Phillip Wellheuser
+** Date: 8/4/19  
+** Description: Basic website demonstrative of basic website skills
+********************************************************************/
+table td:nth-child(1){
+  display:none;
+}
+/*CSS for links*/
