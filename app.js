@@ -4,7 +4,6 @@ const app = express();
 const path = require('path');
 
 //set up handlebars
-//const handlebars = require('express-handlebars').create({defaultLayout: 'main'});
 const handlebars = require('express-handlebars').create({
     defaultLayout: 'main',
     helpers: require(path.join(__dirname, './customHelpers/selectHelper')),
@@ -23,9 +22,9 @@ const sergeantsRouter = require('./routes/sergeants');
 const equipmentSearchRouter = require('./routes/equipmentSearch');
 
 //set port to use and console message to remind how to end process
-app.set('port', 4361);
-app.listen(app.get('port'), function() {
-    console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+//app.set('port', 4361);
+app.listen(/*app.get('port'),*/ function() {
+    console.log('https://warhammer-40k-constructor-db.herokuapp.com/');
 });
 
 //include body parser so we can parse the bodies of post requests...
